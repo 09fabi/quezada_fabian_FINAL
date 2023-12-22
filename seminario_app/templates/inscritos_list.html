@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Listado de Inscritos</title>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <h1>Inscritos</h1>
+            <div>
+                <a href="{% url 'inscripcion' %}" class="btn btn-primary mb-3">Inscribir</a>
+                <a href="{% url 'home' %}" class="btn btn-secondary mb-3">Volver</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Institución</th>
+                    <th>Fecha de Inscripción</th>
+                    <th>observaciones</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for inscrito in inscritos %}
+                <tr>
+                    <td>{{ inscrito.nombre }}</td>
+                    <td>{{ inscrito.telefono }}</td>
+                    <td>{{ inscrito.institucion.nombre }}</td>
+                    <td>{{ inscrito.fecha_inscripcion }}</td>
+                    <td>{{ inscrito.observacion }}</td>
+                    <td>{{ inscrito.estado }}</td>
+                    <td>
+                        <form method="post" action="{% url 'inscrito_delete' inscrito.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <p>No hay inscritos.</p>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

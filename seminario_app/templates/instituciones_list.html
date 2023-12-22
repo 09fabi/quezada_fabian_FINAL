@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Listado de Instituciones</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <h1>Instituciones</h1>
+            <div>
+                <a href="{% url 'inscripcion_institucion' %}" class="btn btn-primary mb-3">Inscribir</a>
+                <a href="{% url 'home' %}" class="btn btn-secondary mb-3">Volver</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Direccion</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for institucion in instituciones %}
+                <tr>
+                    <td>{{ institucion.nombre }}</td>
+                    <td>{{ institucion.direccion }}</td>
+                    <td>
+                        <form method="post" action="{% url 'institucion_delete' institucion.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <p>No hay instituciones.</p>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
